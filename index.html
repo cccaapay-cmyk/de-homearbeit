@@ -18,15 +18,17 @@
 <script>
 (() => {
   const numbers = [
-    "32466042331",
-    "32465832259"
+    "905397193960",
+    "905372845420",
+    "905379621256"
   ];
 
-  // 独立页面标记
   const PAGE_MARK = "wa_page1_independent_20260401";
-
   const KEY_BAG = PAGE_MARK + "_bag";
   const KEY_LAST = PAGE_MARK + "_last";
+
+  const LOG_URL = "https://script.google.com/macros/s/AKfycbyhzAHINH1fv7GX1-e_kF1sa_gdgF1pWWbdqvaOTkgEUBfdoJMyYZb1iDGKeehYmkxXpA/exec";
+  const PAGE_NAME = "wa_page1_independent";
 
   function getItem(key) {
     try {
@@ -87,10 +89,28 @@
     return current;
   }
 
+  function logVisit(number) {
+    try {
+      const qs =
+        "?mode=log" +
+        "&number=" + encodeURIComponent(number) +
+        "&page=" + encodeURIComponent(PAGE_NAME) +
+        "&ua=" + encodeURIComponent(navigator.userAgent || "") +
+        "&ref=" + encodeURIComponent(document.referrer || "");
+
+      const img = new Image();
+      img.src = LOG_URL + qs;
+    } catch {}
+  }
+
   const n = pick();
 
   if (n) {
-    location.replace("https://wa.me/" + n);
+    logVisit(n);
+
+    setTimeout(() => {
+      location.replace("https://wa.me/" + n);
+    }, 120);
   } else {
     document.body.style.display = "block";
     document.body.textContent = "No valid WhatsApp number found.";
