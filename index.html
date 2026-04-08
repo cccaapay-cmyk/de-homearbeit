@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>wa-page1-independent</title>
+  <title>tg-page1-independent</title>
   <style>
     html, body {
       margin: 0;
@@ -17,18 +17,19 @@
 
 <script>
 (() => {
-  const numbers = [
-    "905330132561",
-    "905308539172",
-    "905319711648"
+  const users = [
+    "ZeynepKaya1378",
+    "Aylin158158",
+    "pa6788999889",
+    "Amelie663454"
   ];
 
-  const PAGE_MARK = "wa_page1_independent_20260401";
+  const PAGE_MARK = "tg_page1_independent_20260401";
   const KEY_BAG = PAGE_MARK + "_bag";
   const KEY_LAST = PAGE_MARK + "_last";
 
   const LOG_URL = "https://script.google.com/macros/s/AKfycbyhzAHINH1fv7GX1-e_kF1sa_gdgF1pWWbdqvaOTkgEUBfdoJMyYZb1iDGKeehYmkxXpA/exec";
-  const PAGE_NAME = "wa_page1_independent";
+  const PAGE_NAME = "tg_page1_independent";
 
   function getItem(key) {
     try {
@@ -61,7 +62,7 @@
       const bag = JSON.parse(raw);
       if (!Array.isArray(bag) || !bag.length) return null;
 
-      const validBag = bag.filter(n => numbers.includes(n));
+      const validBag = bag.filter(u => users.includes(u));
       return validBag.length ? validBag : null;
     } catch {
       return null;
@@ -69,13 +70,13 @@
   }
 
   function pick() {
-    if (!numbers.length) return "";
+    if (!users.length) return "";
 
     let bag = loadBag();
     const last = getItem(KEY_LAST) || "";
 
     if (!bag) {
-      bag = shuffle(numbers);
+      bag = shuffle(users);
 
       if (bag.length > 1 && bag[0] === last) {
         [bag[0], bag[1]] = [bag[1], bag[0]];
@@ -89,11 +90,11 @@
     return current;
   }
 
-  function logVisit(number) {
+  function logVisit(user) {
     try {
       const qs =
         "?mode=log" +
-        "&number=" + encodeURIComponent(number) +
+        "&number=" + encodeURIComponent(user) +
         "&page=" + encodeURIComponent(PAGE_NAME) +
         "&ua=" + encodeURIComponent(navigator.userAgent || "") +
         "&ref=" + encodeURIComponent(document.referrer || "");
@@ -103,17 +104,17 @@
     } catch {}
   }
 
-  const n = pick();
+  const u = pick();
 
-  if (n) {
-    logVisit(n);
+  if (u) {
+    logVisit(u);
 
     setTimeout(() => {
-      location.replace("https://wa.me/" + n);
+      location.replace("https://t.me/" + u);
     }, 120);
   } else {
     document.body.style.display = "block";
-    document.body.textContent = "No valid WhatsApp number found.";
+    document.body.textContent = "No valid Telegram username found.";
   }
 })();
 </script>
